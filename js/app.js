@@ -29,13 +29,19 @@ console.dir(squareEls)
 const messageEl = document.querySelector('#message')
 console.dir(messageEl)
 
+const resetBtnEl = document.querySelector('#reset')
+
 
 /*-------------------------------- Functions --------------------------------*/
 function init() {
-    console.log('Hi!');
+board = ['','','','','','','','','']
+turn = 'X'
+winner = false
+tie = false
     render()
 }
 init()
+render()
 
 function render () {
    updateBoard()
@@ -44,7 +50,7 @@ function render () {
 }
 
 
-function updateBoard() {
+ function updateBoard() {
     board.forEach((square, i)=> {
         if (square === 'X'){
             squareEls[i].style.backgroundColor = 'red'
@@ -59,15 +65,17 @@ function updateBoard() {
 };
 
 
+
 function updateMessage(){
-    if (winner && tie === false)
-        return("Next Player's Turn!");
-    {
-    if (winner === false && tie === true)
-        return("tie");
+    if (winner === false && tie === false) {
+        messageEl.textContent = `It is ${turn}'s turn`
+    } else if (winner === false && tie === true) {
+        messageEl.textContent = `It is a tie!`
+    } else {
+        messageEl.textContent = `${turn} is the winner!`
+    }
 }
-}
-//////////// NEED TO FIX THIS ^
+
 
 function handleClick(event) {
     const squareIndex = event.target.id
@@ -164,11 +172,24 @@ function switchPlayerTurn() {
 
 }
 
+
+function reset(){
+board = ['','','','','','','','','']
+turn = 'X'
+winner = false
+tie = false
+updateBoard()
+messageEl.textContent = 'Try Again!'
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
 squareEls.forEach((square) => {
-    square.addEventListener('click', handleClick)
-// console.log(square)
+    square.addEventListener('click', handleClick);
 })
+
+
+resetBtnEl.addEventListener('click', init);
+
 
 
  
